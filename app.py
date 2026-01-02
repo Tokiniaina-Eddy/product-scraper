@@ -27,6 +27,10 @@ def amazon_product():
     except Exception as e:
         return jsonify ({'statut':'erreur', 'erreur' : str(e)}), 500
 
+@app.route('/')
+def home():
+    return "<h1>Bonjour</h1>"
+
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(host='0.0.0.0', port=port)
