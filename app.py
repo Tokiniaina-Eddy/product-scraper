@@ -26,6 +26,12 @@ def amazon_product():
         return jsonify(collection("Amazon")), 200
     except Exception as e:
         return jsonify ({'statut':'erreur', 'erreur' : str(e)}), 500
+@app.route('/walmart')
+def walmart_product():
+    try:
+        return jsonify(collection("Walmart")), 200
+    except Exception as e:
+        return jsonify ({'statut':'erreur', 'erreur' : str(e)}), 500
 
 @app.route('/')
 def home():
@@ -35,3 +41,4 @@ if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(host='0.0.0.0', port=port)
 
+>
