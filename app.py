@@ -1,44 +1,25 @@
-from flask import Flask, jsonify, request
-import pandas as pd
-from pymongo import MongoClient
 import os
+from flask import Flask
 from flask_cors import CORS
+from app.database import DatabaseManager
+from app.routes import APIRoutes
+from dotenv import load_dotenv
+load_dotenv()
 
+def create_app():
+    app = Flask(__name__)
+    CORS(app)
 
+    # Initialisation de la base de données
+    mongo_uri = os.getenv("MONGO_URI")
+    db_manager = DatabaseManager(mongo_uri, 'SmartAutoCommerce')
 
-MONGO_URI = os.getenv("MONGO_URI")
+    # Initialisation des routes
+    APIRoutes(app, db_manager)
 
-client = MongoClient(MONGO_URI)
-db = client['SmartAutoCommerce']
-
-def collection(col:str):
-    collection = db[col]
-    df = pd.DataFrame(list(collection.find()))
-    if '_id' in df.columns:        
-        df = df.drop(columns=['_id'])
-    return df.to_dict(orient="records")
-
-app = Flask(__name__)
-CORS(app)
-@app.route('/Amazon')
-def amazon_product():
-    try:
-        return jsonify(collection("Amazon")), 200
-    except Exception as e:
-        return jsonify ({'statut':'erreur', 'erreur' : str(e)}), 500
-@app.route('/walmart')
-def walmart_product():
-    try:
-        return jsonify(collection("Walmart")), 200
-    except Exception as e:
-        return jsonify ({'statut':'erreur', 'erreur' : str(e)}), 500
-
-@app.route('/')
-def home():
-    return "<h1>Bonjour</h1>"
+    return app
 
 if __name__ == "__main__":
+    app = create_app()
     port = int(os.environ.get("PORT", 5000))
     app.run(host='0.0.0.0', port=port)
-
->

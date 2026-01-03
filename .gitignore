@@ -1,0 +1,16 @@
+# Python (fichiers compilés)
+__pycache__/
+*.py[cod]
+
+# Environnement virtuel (si vous en créez un)
+venv/
+.env
+
+# Jupyter (vu dans votre explorateur)
+.ipynb_checkpoints/
+
+# IDE (VS Code)
+.vscode/
+
+# Système
+.DS_Store
