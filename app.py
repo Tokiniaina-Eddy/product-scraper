@@ -1,10 +1,9 @@
 import os
 from flask import Flask
 from flask_cors import CORS
-from app.database import DatabaseManager
-from app.routes import APIRoutes
-from dotenv import load_dotenv
-load_dotenv()
+from model.database import DatabaseManager
+from model.routes import APIRoutes
+
 
 def create_app():
     app = Flask(__name__)
