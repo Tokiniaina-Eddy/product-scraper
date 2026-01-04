@@ -7,3 +7,9 @@ class DatabaseManager:
 
     def get_collection_data(self, col_name):
         return list(self.db[col_name].find({}, {'_id': 0}))
+    
+    def save_all(self, data, collection_name):
+        collection = self.db[collection_name]
+        if data:
+            collection.delete_many({})
+            collection.insert_many(data)
